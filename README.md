@@ -27,7 +27,7 @@ Running `npm test` will run the unit tests with karma.
 
 *Author:*
 
-Faisal Al-Tameemi, Mindset Labs
+Faisal Al-Tameemi
 
 *References:*
 
