@@ -42,9 +42,3 @@ Running `npm test` will run the unit tests with karma.
 This project builds on top of [Express API Generator version 0.0.1](https://github.com/ioneyed/generator-expressjs-api).
 
 Another great intro to [using Sequelize with ExpressJS](http://docs.sequelizejs.com/en/1.7.0/articles/express/).
-
-
-
-**Author:**
-
-Faisal Al-Tameemi

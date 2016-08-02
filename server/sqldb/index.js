@@ -21,6 +21,11 @@ db.User = db.sequelize.import('../api/user/user.model');
 db.Thing = db.sequelize.import('../api/thing/thing.model');
 
 // run associations from every model here
+Object.keys(db).forEach(function(modelName) {
+  if ("associate" in db[modelName]) {
+    db[modelName].associate(db);
+  }
+});
 
 
 module.exports = db;
