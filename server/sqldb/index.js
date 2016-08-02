@@ -20,6 +20,7 @@ let db = {
 db.User = db.sequelize.import('../api/user/user.model');
 db.Thing = db.sequelize.import('../api/thing/thing.model');
 
-// TODO: run associations from every model here
+// run associations from every model here
+
 
 module.exports = db;

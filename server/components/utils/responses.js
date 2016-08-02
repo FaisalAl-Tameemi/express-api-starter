@@ -1,3 +1,9 @@
+/**
+ * Reusable HTTP response functions
+ *
+ * These functions can be passed to `.then` and `.fail`
+ */
+
 'use strict';
 
 function handleError(res, statusCode) {
