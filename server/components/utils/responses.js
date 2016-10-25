@@ -6,24 +6,26 @@
 
 'use strict';
 
-function handleError(res, statusCode) {
+const handleError = (res, statusCode) => {
   statusCode = statusCode || 500;
-  return function(err) {
+  return err => {
     res.status(statusCode).send(err);
+    return null;
   };
 }
 
-function responseWithResult(res, statusCode) {
+const responseWithResult = (res, statusCode) => {
   statusCode = statusCode || 200;
-  return function(entity) {
+  return entity => {
     if (entity) {
       res.status(statusCode).json(entity);
+      return null;
     }
   };
 }
 
-function handleEntityNotFound(res) {
-  return function(entity) {
+const handleEntityNotFound = (res) => {
+  return (entity) => {
     if (!entity) {
       res.status(404).end();
       return null;
@@ -32,21 +34,22 @@ function handleEntityNotFound(res) {
   };
 }
 
-function saveUpdates(updates) {
-  return function(entity) {
+const saveUpdates = (updates) => {
+  return (entity) => {
     return entity.updateAttributes(updates)
-      .then(function(updated) {
+      .then((updated) => {
         return updated;
       });
   };
 }
 
-function removeEntity(res) {
+const removeEntity = (res) => {
   return function(entity) {
     if (entity) {
       return entity.destroy()
-        .then(function() {
+        .then(() => {
           res.status(204).end();
+          return null;
         });
     }
   };

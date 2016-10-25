@@ -15,11 +15,11 @@ import http from 'http';
 if (config.seedDB) { require('./config/seed'); }
 
 // Setup server
-var app = express();
-var server = http.createServer(app);
+const app = express();
+const server = http.createServer(app);
 
 // // note: SocketIO suport disabled but configured.
-// var socketio = require('socket.io')(server, {
+// const socketio = require('socket.io')(server, {
 //   serveClient: config.env !== 'production',
 //   path: '/socket.io-client'
 // });

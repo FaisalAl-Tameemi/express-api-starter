@@ -1,8 +1,8 @@
 'use strict';
 
-const DB_PASSWORD = 'database_name';
-const DB_USERNAME = 'username';
-const DB_PASSWORD = 'password';
+const DB_NAME = '';
+const DB_USERNAME = '';
+const DB_PASSWORD = '';
 
 // Development specific configuration
 // ==================================
@@ -10,9 +10,9 @@ module.exports = {
 
   // Sequelize connecton opions
   sequelize: {
-    uri: `postgres://${DB_USERNAME}:${DB_PASSWORD}@localhost:5432/${DB_NAME}`
+    uri: `postgres://${DB_USERNAME}:${DB_PASSWORD}@localhost:5432/${DB_NAME}`,
     options: {
-      logging: true,
+      logging: false,
       // storage: 'dev.sqlite', // ONLY for sqlite
       define: {
         timestamps: false
