@@ -4,15 +4,13 @@
  */
 
 'use strict';
-import sqldb from '../sqldb';
-var Thing = sqldb.Thing;
-var User = sqldb.User;
+import { Thing, User } from '../sqldb';
 
 Thing.sync()
-  .then(function() {
+  .then(() => {
     return Thing.destroy({ where: {} });
   })
-  .then(function() {
+  .then(() => {
     Thing.bulkCreate([{
       name: 'Development Tools',
       info: 'Integration with popular tools such as Grunt, Babel, Karma, ' +
@@ -40,14 +38,19 @@ Thing.sync()
       name: 'Deployment Ready',
       info: 'Easily deploy your app to Heroku or Openshift with the heroku ' +
              'and openshift subgenerators'
-    }]);
+    }])
+    .then(() => {
+      console.log('Done populating Things...');
+      return null;
+    });
+    return null;
   });
 
 User.sync()
-  .then(function() {
+  .then(() => {
     return User.destroy({ where: {} });
   })
-  .then(function() {
+  .then(() => {
     User.bulkCreate([{
       provider: 'local',
       name: 'Test User',
@@ -60,7 +63,9 @@ User.sync()
       email: 'admin@example.com',
       password: 'admin'
     }])
-    .then(function() {
+    .then(() => {
       console.log('finished populating users');
+      return null;
     });
+    return null;
   });
