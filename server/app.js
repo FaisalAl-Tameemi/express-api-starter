@@ -18,12 +18,12 @@ if (config.seedDB) { require('./config/seed'); }
 const app = express();
 const server = http.createServer(app);
 
-// // note: SocketIO suport disabled but configured.
+// note: SocketIO suport disabled but configured.
 // const socketio = require('socket.io')(server, {
 //   serveClient: config.env !== 'production',
 //   path: '/socket.io-client'
 // });
-// // require socket.io configs for each endpoint
+// require socket.io configs for each endpoint
 // require('./config/socketio')(socketio);
 
 // require the file which has all the express server configs such as middleware
@@ -33,8 +33,8 @@ require('./config/express')(app);
 require('./routes')(app);
 
 // Start server
-function startServer() {
-  server.listen(config.port, config.ip, function() {
+const startServer = () => {
+  server.listen(config.port, config.ip, () => {
     console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
   });
 }
@@ -42,7 +42,7 @@ function startServer() {
 // note: add `{force: true}` to the .sync() call to erase the DB and restart completely
 sqldb.sequelize.sync()
   .then(startServer)
-  .catch(function(err) {
+  .catch((err) => {
     console.log('Server failed to start due to error: %s', err);
   });
 
