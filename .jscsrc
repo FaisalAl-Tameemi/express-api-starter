@@ -37,9 +37,11 @@
     "afterConsequent": true,
     "beforeAlternate": true
   },
+	
   "requireSpacesInFunction": {
     "beforeOpeningCurlyBrace": true
   },
+
   "validateLineBreaks": "LF",
   "validateParameterSeparator": ", "
 }
