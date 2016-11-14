@@ -13,7 +13,7 @@ import Sequelize from 'sequelize';
 
 let db = {
   Sequelize: Sequelize,
-  sequelize: new Sequelize(config.sequelize.uri, config.sequelize.options)
+  sequelize: new Sequelize(config.sequelize.makeUri(), config.sequelize.options)
 };
 
 // require each model from every endpoint with sequelize
