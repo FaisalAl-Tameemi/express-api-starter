@@ -6,8 +6,8 @@ module.exports = {
 
   // Sequelize connecton opions
   sequelize: {
-		username: 'faisal',
-    password: null,
+		username: 'development',
+    password: 'development',
     database: 'postgres', // db name
 		host: '127.0.0.1', 		// i.e. localhost
     dialect: 'postgres',	// type of db
