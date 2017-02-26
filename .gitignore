@@ -6,3 +6,5 @@ public
 dist
 /server/config/local.env.js
 npm-debug.log
+
+error.log

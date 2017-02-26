@@ -1,4 +1,4 @@
-'use strict';
+import logger from '../../components/utils/logger';
 
 // Development specific configuration
 // ==================================
@@ -6,17 +6,16 @@ module.exports = {
 
   // Sequelize connecton opions
   sequelize: {
-		username: 'development',
+    username: 'development',
     password: 'development',
     database: 'postgres', // db name
-		host: '127.0.0.1', 		// i.e. localhost
+    host: '127.0.0.1', 		// i.e. localhost
     dialect: 'postgres',	// type of db
-		makeUri: function(){
-			return `postgres://${this.username}:${this.password}@localhost:5432/${this.database}`
-		},
+    makeUri: function(){
+      return `postgres://${this.username}:${this.password}@localhost:5432/${this.database}`
+    },
     options: {
-      logging: false,
-      // storage: 'dev.sqlite', // ONLY for sqlite
+      logging: logger.debug, // set to `false` to turn off logging
       define: {
         timestamps: false
       }
