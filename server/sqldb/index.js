@@ -5,13 +5,11 @@
  *    and creates an exportable DB object for other files to use.
  */
 
-'use strict';
-
 import path from 'path';
 import config from '../config/environment';
 import Sequelize from 'sequelize';
 
-let db = {
+const db = {
   Sequelize: Sequelize,
   sequelize: new Sequelize(config.sequelize.makeUri(), config.sequelize.options)
 };

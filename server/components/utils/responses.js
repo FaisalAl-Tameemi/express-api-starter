@@ -4,8 +4,6 @@
  * These functions can be passed to `.then` and `.fail`
  */
 
-'use strict';
-
 const handleError = (res, statusCode) => {
   statusCode = statusCode || 500;
   return err => {
