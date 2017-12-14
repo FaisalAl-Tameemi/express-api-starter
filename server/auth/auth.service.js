@@ -26,21 +26,22 @@ function isAuthenticated() {
     })
     // Attach user to request
     .use(function(req, res, next) {
-      User.find({
-        where: {
-          id: req.user.id
-        }
-      })
+      User
+        .find({
+          where: {
+            id: req.user.id
+          }
+        })
         .then(function(user) {
           if (!user) {
             return res.status(401).end();
           }
           req.user = user;
+
           next();
+          return null;
         })
-        .catch(function(err) {
-          return next(err);
-        });
+        .catch(next);
     });
 }
 
@@ -69,10 +70,10 @@ function hasRole(roleRequired) {
  * Returns a jwt token signed by the app secret
  */
 function signToken(id, role) {
-  
+
   return jwt.sign({ id: id, role: role }, config.secrets.session, {
     expiresIn: 60 * 60 * 5
-  }); 
+  });
 }
 
 /**
@@ -82,8 +83,8 @@ function setTokenCookie(req, res) {
   if (!req.user) {
     return res.status(404).send('Something went wrong, please try again.');
   }
-  
-  var token = signToken(req.user.id, req.user.role); 
+
+  var token = signToken(req.user.id, req.user.role);
   res.cookie('token', token);
   res.redirect('/');
 }

@@ -1,20 +1,20 @@
 'use strict';
 
 import crypto from 'crypto';
-var authTypes = ['github', 'twitter', 'facebook', 'google'];
+const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
-var validatePresenceOf = function(value) {
+const validatePresenceOf = function (value) {
   return value && value.length;
 };
 
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define('User', {
+  const User = sequelize.define('User', {
 
     id: {
-      type:  DataTypes.UUID ,
+      type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
-       defaultValue: DataTypes.UUIDV4
+      defaultValue: DataTypes.UUIDV4
     },
     name: DataTypes.STRING,
     email: {
@@ -45,14 +45,14 @@ module.exports = function(sequelize, DataTypes) {
 
   }, {
     underscored: true,
-    freezeTableName:true,
-    tableName:'users',
+    freezeTableName: true,
+    tableName: 'users',
     /**
      * Virtual Getters
      */
     getterMethods: {
       // Public profile information
-      profile: function() {
+      profile: function () {
         return {
           'name': this.name,
           'role': this.role
@@ -60,7 +60,7 @@ module.exports = function(sequelize, DataTypes) {
       },
 
       // Non-sensitive info we'll be putting in the token
-      token: function() {
+      token: function () {
         return {
           'id': this.id,
           'role': this.role
@@ -72,17 +72,17 @@ module.exports = function(sequelize, DataTypes) {
      * Pre-save hooks
      */
     hooks: {
-      beforeBulkCreate: function(users, fields) {
+      beforeBulkCreate: function (users, fields) {
         const updateUsers = users.map((user) => {
           return user.updatePassword();
         })
 
         return Promise.all(updateUsers)
       },
-      beforeCreate: function(user, fields) {
+      beforeCreate: function (user, fields) {
         return user.updatePassword();
       },
-      beforeUpdate: function(user, fields) {
+      beforeUpdate: function (user, fields) {
         if (user.changed('password')) {
           return user.updatePassword();
         }

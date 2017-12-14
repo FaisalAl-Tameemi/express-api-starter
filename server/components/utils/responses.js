@@ -6,7 +6,8 @@
 
 const handleError = (res, statusCode) => {
   statusCode = statusCode || 500;
-  return err => {
+
+  return (err) => {
     res.status(statusCode).send(err);
     return null;
   };
@@ -14,11 +15,12 @@ const handleError = (res, statusCode) => {
 
 const responseWithResult = (res, statusCode) => {
   statusCode = statusCode || 200;
-  return entity => {
+  return (entity) => {
     if (entity) {
       res.status(statusCode).json(entity);
-      return null;
     }
+
+    return null;
   };
 }
 
@@ -28,13 +30,16 @@ const handleEntityNotFound = (res) => {
       res.status(404).end();
       return null;
     }
-    return entity;
+    else {
+      return entity;
+    }
   };
 }
 
 const saveUpdates = (updates) => {
   return (entity) => {
-    return entity.updateAttributes(updates)
+    return entity
+      .updateAttributes(updates)
       .then((updated) => {
         return updated;
       });
@@ -53,10 +58,19 @@ const removeEntity = (res) => {
   };
 }
 
+const validationError = (res, statusCode) => {
+  statusCode = statusCode || 422;
+  return (err) => {
+    res.status(statusCode).json(err);
+    return null;
+  }
+}
+
 module.exports = {
   handleError,
   responseWithResult,
   handleEntityNotFound,
   saveUpdates,
-  removeEntity
+  removeEntity,
+  validationError
 };

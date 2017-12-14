@@ -8,7 +8,7 @@
 import db from '../sqldb';
 const { Thing, User } = db
 
-Thing.sync({ force: true})
+Thing.sync({})
   .then(() => {
     return Thing.destroy({ where: {} });
   })
@@ -48,7 +48,7 @@ Thing.sync({ force: true})
     return null;
   });
 
-User.sync({force: true})
+User.sync({})
   .then(() => {
     return User.destroy({ where: {} });
   })

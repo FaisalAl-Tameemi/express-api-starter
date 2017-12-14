@@ -72,9 +72,9 @@
     "node": ">=6.6.0"
   },
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server",
-    "seed": ""
+    "start": "npm run build && node ./dist",
+    "dev": "BLUEBIRD_WARNINGS=0 nodemon ./server --exec babel-node",
+    "build": "babel ./server -d ./dist"
   },
   "private": true
 }

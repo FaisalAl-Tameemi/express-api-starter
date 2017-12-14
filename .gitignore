@@ -3,7 +3,7 @@ node_modules
 public
 .tmp
 .idea
-dist
+/dist
 /server/config/local.env.js
 npm-debug.log
 

@@ -31,9 +31,7 @@ function localAuthenticate(User, email, password, done) {
           return null;
         });
     })
-    .catch(function(err) {
-      return done(err);
-    });
+    .catch(done);
 }
 
 exports.setup = function(User, config) {
