@@ -1,0 +1,324 @@
+{
+	"info": {
+		"name": "API Starter Kit",
+		"_postman_id": "45730c30-0e54-d7e8-bfe0-a1b04da84344",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API Welcome",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{API_URL}}/api",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api"
+					]
+				},
+				"description": "Response with generic HTML page as a root route of the API."
+			},
+			"response": []
+		},
+		{
+			"name": "Load BDD Library",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cc6adc95-696d-4101-9b1e-d61b163a60a2",
+						"type": "text/javascript",
+						"exec": [
+							"// \"install\" Postman BDD",
+							"postman.setGlobalVariable('postmanBDD', responseBody);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://bigstickcarpet.com/postman-bdd/dist/postman-bdd.min.js",
+					"protocol": "http",
+					"host": [
+						"bigstickcarpet",
+						"com"
+					],
+					"path": [
+						"postman-bdd",
+						"dist",
+						"postman-bdd.min.js"
+					]
+				},
+				"description": "Injects a BDD library into the global scope of postman. Allows `chai` features such as `expect` and `describe`."
+			},
+			"response": []
+		},
+		{
+			"name": "Login as Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f3b226b8-28aa-44a7-a022-f85a5b33218f",
+						"type": "text/javascript",
+						"exec": [
+							"// inject BDD library",
+							"eval(globals.postmanBDD);",
+							"",
+							"// run tests",
+							"describe('Create a new user as an admin', () => {",
+							"",
+							"  it('should return a 200 response', () => {",
+							"    response.should.have.status(200);",
+							"  });",
+							"",
+							"  it('should return a JSON response', () => {",
+							"    response.should.be.json;",
+							"  });",
+							"  ",
+							"  it('should include `token` in JSON response', () => {",
+							"    response.body.should.have.property('token');",
+							"  });",
+							"",
+							"});",
+							"",
+							"// set env vars from response",
+							"const jsonBody =  pm.response.json();",
+							"pm.environment.set(\"token\", jsonBody.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"admin\"\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/auth/local/",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"auth",
+						"local",
+						""
+					]
+				},
+				"description": "Logs in with an admin `email` and `password`. Expected to return a `token` in the response body, to use on routes which require autherization."
+			},
+			"response": []
+		},
+		{
+			"name": "List All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "297e5125-dbeb-4236-a7ec-c181714343e9",
+						"type": "text/javascript",
+						"exec": [
+							"// inject BDD library",
+							"eval(globals.postmanBDD);",
+							"",
+							"describe('List all users in database', () => {",
+							"",
+							"  it('should return a 200 response', () => {",
+							"    response.should.have.status(200);",
+							"  });",
+							"",
+							"  it('should return a JSON response with an array in the body', () => {",
+							"    response.should.be.json;",
+							"    response.body.should.be.an('array');",
+							"  });",
+							"  ",
+							"  it('should contains users matching the expected schema', () => {",
+							"    response.body.forEach((user) => {",
+							"        user.should.be.an('object');",
+							"        user.should.have.property('id');",
+							"        user.should.have.property('name');",
+							"        user.should.have.property('email');",
+							"        user.should.have.property('profile');",
+							"    });",
+							"  });",
+							"",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"faisal@test.com\",\n  \"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/users/",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				},
+				"description": "Lists all uses within database. Requires user role to be `admin`."
+			},
+			"response": []
+		},
+		{
+			"name": "Create New User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e6fc503-fb6a-4722-b68b-e818e30557e6",
+						"type": "text/javascript",
+						"exec": [
+							"// inject BDD library",
+							"eval(globals.postmanBDD);",
+							"",
+							"describe('Create a new user as an admin', () => {",
+							"",
+							"  it('should return a 200 response', () => {",
+							"    response.should.have.status(200);",
+							"  });",
+							"",
+							"  it('should return a JSON response', () => {",
+							"    response.should.be.json;",
+							"  });",
+							"  ",
+							"  it('should include `token` in JSON response', () => {",
+							"    response.body.should.have.property('token');",
+							"  });",
+							"",
+							"});",
+							"",
+							"const jsonBody = pm.response.json();",
+							"pm.environment.set(\"token\", jsonBody.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"random-{{$guid}}@test.com\",\n  \"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/users",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "My Data (logged in user)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0408aa92-1798-4e1e-bbc9-f0226348c051",
+						"type": "text/javascript",
+						"exec": [
+							"// inject BDD library",
+							"eval(globals.postmanBDD);",
+							"",
+							"describe('Get currenly logged in user info', () => {",
+							"",
+							"  it('should return a 200 response', () => {",
+							"    response.should.have.status(200);",
+							"  });",
+							"",
+							"  it('should return a JSON response', () => {",
+							"    response.should.be.json;",
+							"  });",
+							"  ",
+							"  it('should include `name` and `email` in JSON response', () => {",
+							"    response.body.should.have.property('name');",
+							"    response.body.should.have.property('email');",
+							"  });",
+							"",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{API_URL}}/api/users/me",
+					"host": [
+						"{{API_URL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"me"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		}
+	]
+}

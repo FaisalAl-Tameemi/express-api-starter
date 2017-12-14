@@ -89,13 +89,13 @@ Migrations and seeds are placed in `./server/sqldb/migrations` and `./server/sql
 To run all pending migrations, run the following command:
 
 ```
-sequelize db:migrate
+npm run migrate
 ```
 
 To reverse all migrations: 
 
 ````
-sequelize db:migrate:undo:all
+npm run migrate:undo
 ````
 
 More about [Sequelize Migrations](http://docs.sequelizejs.com/manual/tutorial/migrations.html)
@@ -106,13 +106,13 @@ More about [Sequelize Migrations](http://docs.sequelizejs.com/manual/tutorial/mi
 To run all seeds, run the following command:
 
 ```
-sequelize db:seed:all
+npm run seed
 ```
 
 To reverse all seeds: 
 
 ````
-sequelize db:seed:undo:all
+npm run seed:undo
 ````
 
 More about [Sequelize Seeds](http://docs.sequelizejs.com/manual/tutorial/migrations.html#running-seeds)
