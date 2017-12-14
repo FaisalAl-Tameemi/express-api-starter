@@ -3,12 +3,8 @@
 // Test specific configuration
 // ===========================
 module.exports = {
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://localhost/expressapistarter-test'
-  },
   sequelize: {
-    uri: 'sqlite://',
+    uri: 'pg://',
     options: {
       logging: false,
       storage: 'test.sqlite',

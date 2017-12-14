@@ -5,13 +5,15 @@
  *    and creates an exportable DB object for other files to use.
  */
 
-import path from 'path';
 import config from '../config/environment';
 import Sequelize from 'sequelize';
 
 const db = {
   Sequelize: Sequelize,
-  sequelize: new Sequelize(config.sequelize.makeUri(), config.sequelize.options)
+  sequelize: new Sequelize(config.sequelize.makeUri(), {
+    ...config.sequelize.options,
+    operatorsAliases: Sequelize.Op
+  })
 };
 
 // require each model from every endpoint with sequelize
@@ -19,11 +21,13 @@ db.User = db.sequelize.import('../api/user/user.model');
 db.Thing = db.sequelize.import('../api/thing/thing.model');
 
 // run associations from every model here
-Object.keys(db).forEach(function(modelName) {
+Object.keys(db).forEach((modelName) => {
   if ("associate" in db[modelName]) {
     db[modelName].associate(db);
   }
 });
 
+export const User = db.User;
+export const Thing = db.User;
 
-module.exports = db;
+export default db;

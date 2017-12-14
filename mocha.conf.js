@@ -3,7 +3,7 @@
 // Register the Babel require hook
 require('babel-core/register');
 
-var chai = require('chai');
+const chai = require('chai');
 
 // Load Chai assertions
 global.expect = chai.expect;

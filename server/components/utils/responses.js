@@ -1,7 +1,7 @@
 /**
  * Reusable HTTP response functions
  *
- * These functions can be passed to `.then` and `.fail`
+ * These functions can be passed to `.then` and `.catch`
  */
 
 const handleError = (res, statusCode) => {

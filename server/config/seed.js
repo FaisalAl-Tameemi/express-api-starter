@@ -4,9 +4,11 @@
  */
 
 'use strict';
-import { Thing, User } from '../sqldb';
 
-Thing.sync()
+import db from '../sqldb';
+const { Thing, User } = db
+
+Thing.sync({ force: true})
   .then(() => {
     return Thing.destroy({ where: {} });
   })
@@ -46,7 +48,7 @@ Thing.sync()
     return null;
   });
 
-User.sync()
+User.sync({force: true})
   .then(() => {
     return User.destroy({ where: {} });
   })
@@ -54,7 +56,7 @@ User.sync()
     User.bulkCreate([{
       provider: 'local',
       name: 'Test User',
-      email: 'test@example.com',
+      email: 'test@test.com',
       password: 'test'
     }, {
       provider: 'local',
