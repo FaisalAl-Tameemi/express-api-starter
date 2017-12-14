@@ -42,7 +42,6 @@ module.exports = function(sequelize, DataTypes) {
     twitter: DataTypes.TEXT,
     google: DataTypes.TEXT,
     github: DataTypes.TEXT
-
   }, {
     underscored: true,
     freezeTableName: true,
