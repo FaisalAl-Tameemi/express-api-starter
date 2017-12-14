@@ -46,8 +46,10 @@
     "chai-as-promised": "^7.1.1",
     "chai-things": "^0.2.0",
     "connect-livereload": "^0.6.0",
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
     "istanbul": "^0.4.5",
-    "jshint-stylish": "~2.2.1",
     "karma": "~1.7.1",
     "karma-chai-plugins": "^0.9.0",
     "karma-chrome-launcher": "~2.2.0",
@@ -74,7 +76,9 @@
   "scripts": {
     "start": "npm run build && node ./dist",
     "dev": "BLUEBIRD_WARNINGS=0 nodemon ./server --exec babel-node",
-    "build": "babel ./server -d ./dist"
+    "build": "babel ./server -d ./dist",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc.json ./server",
+    "test": "mocha"
   },
   "private": true
 }

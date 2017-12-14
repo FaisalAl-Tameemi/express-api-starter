@@ -13,16 +13,17 @@ import methodOverride from 'method-override';
 import cookieParser from 'cookie-parser';
 import errorHandler from 'errorhandler';
 import path from 'path';
-import lusca from 'lusca';
 import config from './environment';
 import passport from 'passport';
 import session from 'express-session';
 import sqldb from '../sqldb';
+// import lusca from 'lusca';
 import expressSequelizeSession from 'express-sequelize-session';
-var Store = expressSequelizeSession(session.Store);
+
+const Store = expressSequelizeSession(session.Store);
 
 module.exports = function(app) {
-  var env = app.get('env');
+  const env = app.get('env');
 
   app.engine('html', require('ejs').renderFile);
   app.set('view engine', 'html');
@@ -44,23 +45,27 @@ module.exports = function(app) {
   }));
 
   /**
+   * ---------------------------------------
    * Lusca - express server security // only when on production
    * https://github.com/krakenjs/lusca
+   * ---------------------------------------
+
+    if ('production' === env) {
+      app.use(lusca({
+        csrf: {
+          angular: true
+        },
+        xframe: 'SAMEORIGIN',
+        hsts: {
+          maxAge: 31536000, //1 year, in seconds
+          includeSubDomains: true,
+          preload: true
+        },
+        xssProtection: true
+      }));
+    }
+
    */
-  if ('production' == env) {
-    app.use(lusca({
-      csrf: {
-        angular: true
-      },
-      xframe: 'SAMEORIGIN',
-      hsts: {
-        maxAge: 31536000, //1 year, in seconds
-        includeSubDomains: true,
-        preload: true
-      },
-      xssProtection: true
-    }));
-  }
 
   app.set('appPath', path.join(config.root, 'client'));
 
