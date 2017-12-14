@@ -2,7 +2,6 @@
  * Socket.io configuration
  */
 
-'use strict';
 
 import config from './environment';
 
@@ -13,16 +12,15 @@ function onDisconnect(socket) {
 // When the user connects.. perform this
 function onConnect(socket) {
   // When the client emits 'info', this listens and executes
-  socket.on('info', function(data) {
+  socket.on('info', (data) => {
     socket.log(JSON.stringify(data, null, 2));
   });
 
   // Insert sockets below
   require('../api/thing/thing.socket').register(socket);
-
 }
 
-module.exports = function(socketio) {
+module.exports = function (socketio) {
   // socket.io (v1.x.x) is powered by debug.
   // In order to see all the debug output, set DEBUG (in server/config/local.env.js) to including the desired scope.
   //
@@ -38,18 +36,18 @@ module.exports = function(socketio) {
   //   handshake: true
   // }));
 
-  socketio.on('connection', function(socket) {
-    socket.address = socket.request.connection.remoteAddress +
-      ':' + socket.request.connection.remotePort;
+  socketio.on('connection', (socket) => {
+    socket.address = `${socket.request.connection.remoteAddress
+    }:${socket.request.connection.remotePort}`;
 
     socket.connectedAt = new Date();
 
-    socket.log = function(...data) {
+    socket.log = function (...data) {
       console.log(`SocketIO ${socket.nsp.name} [${socket.address}]`, ...data);
     };
 
     // Call onDisconnect.
-    socket.on('disconnect', function() {
+    socket.on('disconnect', () => {
       onDisconnect(socket);
       socket.log('DISCONNECTED');
     });

@@ -1,4 +1,4 @@
-'use strict';
+
 
 import express from 'express';
 import controller from './user.controller';

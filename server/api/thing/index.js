@@ -2,12 +2,11 @@
  * ROUTES preprended with `/api/things/`
  */
 
-'use strict';
 
-var express = require('express');
-var controller = require('./thing.controller'); // load response functions
+const express = require('express');
+const controller = require('./thing.controller'); // load response functions
 
-var router = express.Router(); // load the router object
+const router = express.Router(); // load the router object
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);

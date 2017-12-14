@@ -4,7 +4,6 @@
  * and calls the necessary files.
  */
 
-'use strict';
 
 import express from 'express';
 import sqldb from './sqldb';

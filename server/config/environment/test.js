@@ -1,4 +1,4 @@
-'use strict';
+
 
 // Test specific configuration
 // ===========================
@@ -9,8 +9,8 @@ module.exports = {
       logging: false,
       storage: 'test.sqlite',
       define: {
-        timestamps: false
-      }
-    }
-  }
+        timestamps: false,
+      },
+    },
+  },
 };

@@ -24,38 +24,27 @@ const responseWithResult = (res, statusCode) => {
   };
 }
 
-const handleEntityNotFound = (res) => {
-  return (entity) => {
-    if (!entity) {
-      res.status(404).end();
-      return null;
-    }
-    else {
-      return entity;
-    }
-  };
+const handleEntityNotFound = res => (entity) => {
+  if (!entity) {
+    res.status(404).end();
+    return null;
+  }
+
+  return entity;
 }
 
-const saveUpdates = (updates) => {
-  return (entity) => {
-    return entity
-      .updateAttributes(updates)
-      .then((updated) => {
-        return updated;
+const saveUpdates = updates => entity => entity
+  .updateAttributes(updates)
+  .then(updated => updated)
+
+const removeEntity = res => function (entity) {
+  if (entity) {
+    return entity.destroy()
+      .then(() => {
+        res.status(204).end();
+        return null;
       });
-  };
-}
-
-const removeEntity = (res) => {
-  return function(entity) {
-    if (entity) {
-      return entity.destroy()
-        .then(() => {
-          res.status(204).end();
-          return null;
-        });
-    }
-  };
+  }
 }
 
 const validationError = (res, statusCode) => {
@@ -72,5 +61,5 @@ module.exports = {
   handleEntityNotFound,
   saveUpdates,
   removeEntity,
-  validationError
+  validationError,
 };

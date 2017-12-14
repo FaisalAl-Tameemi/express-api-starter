@@ -11,18 +11,18 @@ module.exports = {
     database: 'postgres', // db name
     host: '127.0.0.1', 		// i.e. localhost
     dialect: 'postgres',	// type of db
-    makeUri: function(){
+    makeUri() {
       return `postgres://${this.username}:${this.password}@localhost:5432/${this.database}`
     },
     options: {
       logging: logger.debug, // set to `false` to turn off logging
       define: {
-        timestamps: false
-      }
-    }
+        timestamps: false,
+      },
+    },
   },
 
   // Seed database on startup
-  seedDB: true
+  seedDB: true,
 
 };

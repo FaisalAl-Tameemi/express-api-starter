@@ -2,18 +2,17 @@
  * Broadcast updates to client when the model changes
  */
 
-'use strict';
 
-var ThingEvents = require('./thing.events');
+const ThingEvents = require('./thing.events');
 
 // Model events to emit
-var events = ['save', 'remove'];
+const events = ['save', 'remove'];
 
-exports.register = function(socket) {
+exports.register = function (socket) {
   // Bind model events to socket events
-  for (var i = 0, eventsLength = events.length; i < eventsLength; i++) {
-    var event = events[i];
-    var listener = createListener('thing:' + event, socket);
+  for (let i = 0, eventsLength = events.length; i < eventsLength; i++) {
+    const event = events[i];
+    const listener = createListener(`thing:${event}`, socket);
 
     ThingEvents.on(event, listener);
     socket.on('disconnect', removeListener(event, listener));
@@ -22,13 +21,13 @@ exports.register = function(socket) {
 
 
 function createListener(event, socket) {
-  return function(doc) {
+  return function (doc) {
     socket.emit(event, doc);
   };
 }
 
 function removeListener(event, listener) {
-  return function() {
+  return function () {
     ThingEvents.removeListener(event, listener);
   };
 }

@@ -1,24 +1,24 @@
-'use strict';
+
 
 import express from 'express';
 import passport from 'passport';
 import auth from '../auth.service';
 
-var router = express.Router();
+const router = express.Router();
 
 router
   .get('/', passport.authenticate('google', {
     failureRedirect: '/signup',
     scope: [
       'profile',
-      'email'
+      'email',
     ],
-    session: false
+    session: false,
   }))
 
   .get('/callback', passport.authenticate('google', {
     failureRedirect: '/signup',
-    session: false
+    session: false,
   }), auth.setTokenCookie);
 
 module.exports = router;

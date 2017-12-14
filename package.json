@@ -78,6 +78,7 @@
     "dev": "BLUEBIRD_WARNINGS=0 nodemon ./server --exec babel-node",
     "build": "babel ./server -d ./dist",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.json ./server",
+    "lint:fix": "./node_modules/.bin/eslint -c .eslintrc.json ./server --fix",
     "test": "mocha"
   },
   "private": true

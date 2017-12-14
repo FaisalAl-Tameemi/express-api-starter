@@ -2,7 +2,6 @@
  * Express configuration
  */
 
-'use strict';
 
 import express from 'express';
 import favicon from 'serve-favicon';
@@ -22,7 +21,7 @@ import expressSequelizeSession from 'express-sequelize-session';
 
 const Store = expressSequelizeSession(session.Store);
 
-module.exports = function(app) {
+module.exports = function (app) {
   const env = app.get('env');
 
   app.engine('html', require('ejs').renderFile);
@@ -41,7 +40,7 @@ module.exports = function(app) {
     secret: config.secrets.session,
     saveUninitialized: true,
     resave: false,
-    store: new Store(sqldb.sequelize)
+    store: new Store(sqldb.sequelize),
   }));
 
   /**
@@ -69,17 +68,17 @@ module.exports = function(app) {
 
   app.set('appPath', path.join(config.root, 'client'));
 
-  if ('production' === env) {
+  if (env === 'production') {
     app.use(favicon(path.join(config.root, 'client', 'favicon.ico')));
     app.use(express.static(app.get('appPath')));
     app.use(morgan('dev'));
   }
 
-  if ('development' === env) {
+  if (env === 'development') {
     app.use(require('connect-livereload')());
   }
 
-  if ('development' === env || 'test' === env) {
+  if (env === 'development' || env === 'test') {
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(app.get('appPath')));
     app.use(morgan('dev'));

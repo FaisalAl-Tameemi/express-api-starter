@@ -9,11 +9,11 @@ import config from '../config/environment';
 import Sequelize from 'sequelize';
 
 const db = {
-  Sequelize: Sequelize,
+  Sequelize,
   sequelize: new Sequelize(config.sequelize.makeUri(), {
     ...config.sequelize.options,
-    operatorsAliases: Sequelize.Op
-  })
+    operatorsAliases: Sequelize.Op,
+  }),
 };
 
 // require each model from every endpoint with sequelize
@@ -22,7 +22,7 @@ db.Thing = db.sequelize.import('../api/thing/thing.model');
 
 // run associations from every model here
 Object.keys(db).forEach((modelName) => {
-  if ("associate" in db[modelName]) {
+  if ('associate' in db[modelName]) {
     db[modelName].associate(db);
   }
 });

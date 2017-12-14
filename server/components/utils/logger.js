@@ -5,9 +5,9 @@ const logger = new (winston.Logger)({
     new (winston.transports.File)({
       name: 'error-file',
       filename: `${__dirname}/../../../error.log`,
-      level: 'error'
-    })
-  ]
+      level: 'error',
+    }),
+  ],
 });
 
 module.exports = logger;

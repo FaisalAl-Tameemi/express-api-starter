@@ -1,47 +1,48 @@
-'use strict';
+
 
 import crypto from 'crypto';
+
 const authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 const validatePresenceOf = function (value) {
   return value && value.length;
 };
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   const User = sequelize.define('User', {
 
     id: {
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4
+      defaultValue: DataTypes.UUIDV4,
     },
     name: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
       unique: {
-        msg: 'The specified email address is already in use.'
+        msg: 'The specified email address is already in use.',
       },
       validate: {
-        isEmail: true
-      }
+        isEmail: true,
+      },
     },
     role: {
       type: DataTypes.STRING,
-      defaultValue: 'user'
+      defaultValue: 'user',
     },
     password: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: true
-      }
+        notEmpty: true,
+      },
     },
     provider: DataTypes.STRING,
     salt: DataTypes.STRING,
     facebook: DataTypes.TEXT,
     twitter: DataTypes.TEXT,
     google: DataTypes.TEXT,
-    github: DataTypes.TEXT
+    github: DataTypes.TEXT,
   }, {
     underscored: true,
     freezeTableName: true,
@@ -51,44 +52,42 @@ module.exports = function(sequelize, DataTypes) {
      */
     getterMethods: {
       // Public profile information
-      profile: function () {
+      profile() {
         return {
-          'name': this.name,
-          'role': this.role
+          name: this.name,
+          role: this.role,
         };
       },
 
       // Non-sensitive info we'll be putting in the token
-      token: function () {
+      token() {
         return {
-          'id': this.id,
-          'role': this.role
+          id: this.id,
+          role: this.role,
         };
-      }
+      },
     },
 
     /**
      * Pre-save hooks
      */
     hooks: {
-      beforeBulkCreate: function (users, fields) {
-        const updateUsers = users.map((user) => {
-          return user.updatePassword();
-        })
+      beforeBulkCreate(users, fields) {
+        const updateUsers = users.map(user => user.updatePassword())
 
         return Promise.all(updateUsers)
       },
-      beforeCreate: function (user, fields) {
+      beforeCreate(user, fields) {
         return user.updatePassword();
       },
-      beforeUpdate: function (user, fields) {
+      beforeUpdate(user, fields) {
         if (user.changed('password')) {
           return user.updatePassword();
         }
 
         return null;
-      }
-    }
+      },
+    },
   });
 
   /**
@@ -120,7 +119,7 @@ module.exports = function(sequelize, DataTypes) {
    */
   User.prototype.makeSalt = function (byteSize = 16) {
     return new Promise((resolve, reject) => {
-      crypto.randomBytes(byteSize, function (err, salt) {
+      crypto.randomBytes(byteSize, (err, salt) => {
         if (err) {
           return reject(err);
         }
@@ -174,18 +173,18 @@ module.exports = function(sequelize, DataTypes) {
         }
 
         // Make salt
-        var _this = this;
+        const _this = this;
         this.makeSalt()
-            .then((salt) => {
-              _this.salt = salt;
+          .then((salt) => {
+            _this.salt = salt;
 
-              return _this
-                .encryptPassword(_this.password)
-                .then((hashedPassword) => {
-                  _this.password = hashedPassword;
-                  resolve(null);
-                })
-            })
+            return _this
+              .encryptPassword(_this.password)
+              .then((hashedPassword) => {
+                _this.password = hashedPassword;
+                resolve(null);
+              })
+          })
       } else {
         resolve();
       }

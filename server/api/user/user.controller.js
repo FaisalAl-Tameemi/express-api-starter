@@ -1,4 +1,4 @@
-'use strict';
+
 
 import db from '../../sqldb';
 import config from '../../config/environment';
@@ -11,7 +11,7 @@ const { User } = db;
  * Get list of users
  * restriction: 'admin'
  */
-exports.index = function(req, res) {
+exports.index = function (req, res) {
   User
     .findAll({
       attributes: [
@@ -19,8 +19,8 @@ exports.index = function(req, res) {
         'name',
         'email',
         'role',
-        'provider'
-      ]
+        'provider',
+      ],
     })
     .then(responses.handleEntityNotFound(res))
     .then(responses.responseWithResult(res))
@@ -30,7 +30,7 @@ exports.index = function(req, res) {
 /**
  * Creates a new user
  */
-exports.create = function(req, res, next) {
+exports.create = function (req, res, next) {
   const newUser = User.build(req.body);
 
   newUser.setDataValue('provider', 'local');
@@ -40,10 +40,10 @@ exports.create = function(req, res, next) {
     .save()
     .then((user) => {
       const token = jwt.sign({ id: user.id }, config.secrets.session, {
-        expiresIn: 60 * 60 * 5
+        expiresIn: 60 * 60 * 5,
       });
 
-      res.json({ token: token });
+      res.json({ token });
 
       return null;
     })
@@ -53,14 +53,14 @@ exports.create = function(req, res, next) {
 /**
  * Get a single user
  */
-exports.show = function(req, res, next) {
+exports.show = function (req, res, next) {
   const userId = req.params.id;
 
   User
     .find({
       where: {
-        id: userId
-      }
+        id: userId,
+      },
     })
     .then(responses.handleEntityNotFound(res))
     .then(responses.responseWithResult(res))
@@ -71,10 +71,10 @@ exports.show = function(req, res, next) {
  * Deletes a user
  * restriction: 'admin'
  */
-exports.destroy = function(req, res) {
+exports.destroy = function (req, res) {
   User
     .destroy({ id: req.params.id })
-    .then(function() {
+    .then(() => {
       res.status(204).end();
     })
     .catch(responses.handleError(res));
@@ -83,7 +83,7 @@ exports.destroy = function(req, res) {
 /**
  * Change a users password
  */
-exports.changePassword = function(req, res, next) {
+exports.changePassword = function (req, res, next) {
   const userId = req.user.id;
   const oldPass = String(req.body.oldPassword);
   const newPass = String(req.body.newPassword);
@@ -91,57 +91,54 @@ exports.changePassword = function(req, res, next) {
   User
     .find({
       where: {
-        id: userId
-      }
+        id: userId,
+      },
     })
-    .then(function(user) {
+    .then((user) => {
       if (user.authenticate(oldPass)) {
         user.password = newPass;
         return user.save()
-          .then(function() {
+          .then(() => {
             res.status(204).end();
           })
           .catch(validationError(res));
-      } else {
-        return res.status(403).end();
       }
+      return res.status(403).end();
     });
 };
 
 /**
  * Get my info
  */
-exports.me = function(req, res, next) {
+exports.me = function (req, res, next) {
   const userId = req.user.id;
 
   User
     .find({
       where: {
-        id: userId
+        id: userId,
       },
       attributes: [
         'id',
         'name',
         'email',
         'role',
-        'provider'
-      ]
+        'provider',
+      ],
     })
-    .then(function(user) { // don't ever give out the password or salt
+    .then((user) => { // don't ever give out the password or salt
       if (!user) {
         return res.status(401).end();
       }
 
       res.json(user);
     })
-    .catch(function(err) {
-      return next(err);
-    });
+    .catch(err => next(err));
 };
 
 /**
  * Authentication callback
  */
-exports.authCallback = function(req, res, next) {
+exports.authCallback = function (req, res, next) {
   res.redirect('/');
 };
