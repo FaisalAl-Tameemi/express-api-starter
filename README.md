@@ -5,34 +5,120 @@
 
 ### Prerequisites
 
-- [Git](https://git-scm.com/)
-- [Node.js and NPM](nodejs.org)
-- [Ruby](https://www.ruby-lang.org) and then `gem install sass`
-- [Grunt](http://gruntjs.com/) (`[sudo] npm install --global grunt-cli`)
 - Postgres(>=9.4)
-- Sequelize CLI (`[sudo] npm install --global sequelize-cli`)
+- Sequelize CLI (`[sudo] npm install -g sequelize-cli`)
 
 
-### Developing
+### Folder Architecture
+
+```
+├── mocha.conf.js
+├── package-lock.json
+├── package.json
+├── server
+│   ├── api
+│   │   ├── thing
+│   │   │   ├── index.js
+│   │   │   ├── thing.controller.js
+│   │   │   ├── thing.events.js
+│   │   │   ├── thing.helper.js
+│   │   │   ├── thing.model.js
+│   │   │   └── thing.socket.js
+│   │   └── user
+│   │       ├── index.js
+│   │       ├── user.controller.js
+│   │       ├── user.events.js
+│   │       └── user.model.js
+│   ├── auth
+│   │   ├── auth.service.js
+│   │   ├── facebook
+│   │   │   └── ...
+│   │   ├── google
+│   │   │   └── ...
+│   │   ├── index.js
+│   │   ├── local
+│   │   │   └── ...
+│   │   └── twitter
+│   │       └── ...
+│   ├── components
+│   │   ├── errors
+│   │   │   └── index.js
+│   │   └── utils
+│   │       ├── logger.js
+│   │       └── responses.js
+│   ├── config
+│   │   ├── environment
+│   │   │   ├── development.js
+│   │   │   ├── index.js
+│   │   │   ├── production.js
+│   │   │   ├── shared.js
+│   │   │   └── test.js
+│   │   ├── express.js
+│   │   ├── local.env.sample.js
+│   │   └── socketio.js
+│   ├── index.js
+│   ├── routes.js
+│   └── sqldb
+│       ├── config.js
+│       ├── index.js
+│       ├── migrations
+│       │   └── ...
+│       └── seeders
+│           └── ...
+└── yarn.lock
+
+32 directories, 81 files
+```
+
+
+### Running the server
 
 1. Run `npm install` to install server dependencies.
 
-2. Edit the `./server/config/development.js` file and enter the correct DB connection URI.
+2. Edit the `./server/config/development.js` file and enter the correct postgres DB connection variables.
 
-3. Run `npm start` to start the development server.
-
-
-
-<!-- ## Build & development
-
-Run `grunt build` for building and `grunt serve` for preview. -->
+3. Run `npm run dev` to start the development server.
 
 
-### Migrations
+### Migrations & Seeds
 
-> __TODO:__ add content
+Migrations and seeds are placed in `./server/sqldb/migrations` and `./server/sqldb/seeders` respectively.
+
+#### Running Migrations
+
+To run all pending migrations, run the following command:
+
+```
+sequelize db:migrate
+```
+
+To reverse all migrations: 
+
+````
+sequelize db:migrate:undo:all
+````
+
+More about [Sequelize Migrations](http://docs.sequelizejs.com/manual/tutorial/migrations.html)
+
+
+#### Running Seeds
+
+To run all seeds, run the following command:
+
+```
+sequelize db:seed:all
+```
+
+To reverse all seeds: 
+
+````
+sequelize db:seed:undo:all
+````
+
+More about [Sequelize Seeds](http://docs.sequelizejs.com/manual/tutorial/migrations.html#running-seeds)
 
 
 ## Testing
 
+> __TODO:__ Add tests w. mocha vs. jest... 
 Running `npm test` will run the unit tests with karma.
