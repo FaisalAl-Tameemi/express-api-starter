@@ -28,11 +28,11 @@
 Run `grunt build` for building and `grunt serve` for preview. -->
 
 
+### Migrations
+
+> __TODO:__ add content
+
+
 ## Testing
 
 Running `npm test` will run the unit tests with karma.
-
-
-**References:**
-
-A great intro to [using Sequelize with ExpressJS](http://docs.sequelizejs.com/en/1.7.0/articles/express/).
