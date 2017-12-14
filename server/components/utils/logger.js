@@ -1,13 +1,14 @@
-const winston = require('winston');
+const { Logger, transports } = require('winston')
 
-const logger = new (winston.Logger)({
+const baseLogger = new Logger({
   transports: [
-    new (winston.transports.File)({
+    new (transports.File)({
       name: 'error-file',
       filename: `${__dirname}/../../../error.log`,
       level: 'error',
     }),
+    new (transports.Console)({}),
   ],
 });
 
-module.exports = logger;
+module.exports = baseLogger;

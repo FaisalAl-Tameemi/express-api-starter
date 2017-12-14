@@ -2,33 +2,32 @@
  * Thing model events
  */
 
+import { EventEmitter } from 'events'
+import { Thing } from "../../sqldb"
 
-const EventEmitter = require('events').EventEmitter;
-const Thing = require('../../sqldb').Thing;
-
-const ThingEvents = new EventEmitter();
+const ThingEvents = new EventEmitter()
 
 // Set max event listeners (0 == unlimited)
-ThingEvents.setMaxListeners(0);
+ThingEvents.setMaxListeners(0)
 
 // Model events
 const events = {
   afterCreate: 'save',
   afterUpdate: 'save',
   afterDestroy: 'remove',
-};
+}
 
 // Register the event emitter to the model events
 for (const e in events) {
-  const event = events[e];
-  Thing.hook(e, emitEvent(event));
+  const event = events[e]
+  Thing.hook(e, emitEvent(event))
 }
 
 function emitEvent(event) {
   return function (doc, options, done) {
-    ThingEvents.emit(`${event}:${doc.id}`, doc);
-    ThingEvents.emit(event, doc);
-    done(null);
+    ThingEvents.emit(`${event}:${doc.id}`, doc)
+    ThingEvents.emit(event, doc)
+    done(null)
   }
 }
 

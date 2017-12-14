@@ -1,5 +1,4 @@
 
-
 const dev_configs = require('../config/environment/development');
 const test_configs = require('../config/environment/test');
 const prod_configs = require('../config/environment/production');

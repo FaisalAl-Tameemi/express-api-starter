@@ -28,6 +28,6 @@ Object.keys(db).forEach((modelName) => {
 });
 
 export const User = db.User;
-export const Thing = db.User;
+export const Thing = db.Thing;
 
 export default db;

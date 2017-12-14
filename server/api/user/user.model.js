@@ -10,7 +10,6 @@ const validatePresenceOf = function (value) {
 
 module.exports = function (sequelize, DataTypes) {
   const User = sequelize.define('User', {
-
     id: {
       type: DataTypes.UUID,
       allowNull: false,
@@ -72,15 +71,15 @@ module.exports = function (sequelize, DataTypes) {
      * Pre-save hooks
      */
     hooks: {
-      beforeBulkCreate(users, fields) {
+      beforeBulkCreate: (users, fields) => {
         const updateUsers = users.map(user => user.updatePassword())
 
         return Promise.all(updateUsers)
       },
-      beforeCreate(user, fields) {
+      beforeCreate: (user, fields) => {
         return user.updatePassword();
       },
-      beforeUpdate(user, fields) {
+      beforeUpdate: (user, fields) => {
         if (user.changed('password')) {
           return user.updatePassword();
         }
@@ -97,7 +96,6 @@ module.exports = function (sequelize, DataTypes) {
      * Authenticate - check if the passwords are the same
      *
      * @param {String} password
-     * @param {Function} callback
      * @return {Boolean}
      * @api public
      */
@@ -113,7 +111,6 @@ module.exports = function (sequelize, DataTypes) {
    * Make salt
    *
    * @param {Number} byteSize Optional salt byte size, default to 16
-   * @param {Function} callback
    * @return {String}
    * @api public
    */
@@ -133,7 +130,6 @@ module.exports = function (sequelize, DataTypes) {
    * Encrypt password
    *
    * @param {String} password
-   * @param {Function} callback
    * @return {String}
    * @api public
    */
@@ -160,7 +156,6 @@ module.exports = function (sequelize, DataTypes) {
   /**
    * Update password field
    *
-   * @param {Function} fn
    * @return {String}
    * @api public
    */

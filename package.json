@@ -76,10 +76,14 @@
   "scripts": {
     "start": "npm run build && node ./dist",
     "dev": "BLUEBIRD_WARNINGS=0 nodemon ./server --exec babel-node",
+    "seed": "./node_modules/.bin/sequelize db:seed:all",
+    "seed:undo": "./node_modules/.bin/sequelize db:seed:undo:all",
+    "migrate": "./node_modules/.bin/sequelize db:migrate",
+    "migrate:undo": "./node_modules/.bin/sequelize db:migrate:undo:all",
     "build": "babel ./server -d ./dist",
     "lint": "./node_modules/.bin/eslint -c .eslintrc.json ./server",
     "lint:fix": "./node_modules/.bin/eslint -c .eslintrc.json ./server --fix",
-    "test": "mocha"
+    "test": "mocha --require babel-core/register"
   },
   "private": true
 }
